@@ -1,6 +1,12 @@
 import express from "express";
 import httpErrors from "http-errors";
 import {
+  findCommentById,
+  findCommentByIdAndDelete,
+  findComments,
+  saveNewComment,
+} from "../../db/commentsTools.js";
+import {
   findMedia,
   findMediaById,
   findMediaByIdAndDelete,
@@ -69,8 +75,71 @@ mediasRouter.delete("/:mediaId", async (req, res, next) => {
     if (updatedMediaArr) {
       res.status(204).send();
     } else {
-      next(BadRequest(`Item with id ${req.params.mediaId} not found!`));
+      next(NotFound(`Item with id ${req.params.mediaId} not found!`));
     }
+  } catch (error) {
+    next(error);
+  }
+});
+
+// **************************************COMMENTS CRUD
+
+mediasRouter.post("/:mediaId/comments", async (req, res, next) => {
+  try {
+    const comment = await saveNewComment(req.params.mediaId, req.body);
+    if (comment) {
+      res.send.comment;
+      console.log(comment, "comment sent");
+    } else {
+      next(error);
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
+mediasRouter.get("/:mediaId/comments", async (req, res, next) => {
+  try {
+    const comments = await findComments(req.params.mediaId);
+    if (comments) {
+      res.send.comments;
+      console.log(comments);
+    } else {
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
+mediasRouter.get("/:mediaId/comments/:commentId", async (req, res, next) => {
+  try {
+    const comment = await findCommentById(
+      req.params.mediaId,
+      req.params.commentId
+    );
+
+    res.send.comment;
+    console.log(comment);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// LATER ADD THE PUT METHOD
+mediasRouter.put("/:mediaId/comments/:commentId", async (req, res, next) => {
+  try {
+    if (condition) {
+    } else {
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
+mediasRouter.delete("/:mediaId/comments/:commentId", async (req, res, next) => {
+  try {
+    await findCommentByIdAndDelete(req.params.mediaId, req.params.commentId);
+    res.status(204).send();
   } catch (error) {
     next(error);
   }
