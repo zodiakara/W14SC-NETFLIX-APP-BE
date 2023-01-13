@@ -37,7 +37,6 @@ server.use(express.json());
 
 // endpoints:
 server.use("/medias", mediasRouter);
-
 server.use("/medias", filesRouter);
 
 // error handlers:
