@@ -3,6 +3,7 @@ import httpErrors from "http-errors";
 import {
   findCommentById,
   findCommentByIdAndDelete,
+  findCommentByIdAndUpdate,
   findComments,
   saveNewComment,
 } from "../../db/commentsTools.js";
@@ -16,7 +17,6 @@ import {
 
 const { NotFound, Unauthorized, BadRequest } = httpErrors;
 const mediasRouter = express.Router();
-const beUrl = process.env.BE_URL;
 
 mediasRouter.post("/", async (req, res, next) => {
   try {
@@ -36,6 +36,7 @@ mediasRouter.get("/", async (req, res, next) => {
   try {
     const medias = await findMedia();
     res.send(medias);
+    console.log(medias);
   } catch (error) {
     next(error);
   }
@@ -128,8 +129,16 @@ mediasRouter.get("/:mediaId/comments/:commentId", async (req, res, next) => {
 // LATER ADD THE PUT METHOD
 mediasRouter.put("/:mediaId/comments/:commentId", async (req, res, next) => {
   try {
-    if (condition) {
+    const singleComment = await findCommentByIdAndUpdate(
+      req.params.mediaId,
+      req.params.commentId,
+      req.body
+    );
+    if (singleComment) {
+      res.send();
+      console.log(singleComment);
     } else {
+      console.log("sth went wrong ?");
     }
   } catch (error) {
     next(error);

@@ -1,4 +1,4 @@
-import { getMedia, writeMedia } from "../fs-tools.js/fs-tools.js";
+import { getMedia, writeMedia } from "../lib/fs-tools.js";
 import uniqid from "uniqid";
 
 export const saveNewComment = async (id, newCommentData) => {
@@ -46,7 +46,26 @@ export const findCommentById = async (mediaId, commentId) => {
 };
 
 //later to add: update PUT method
-export const findCommentByIdAndUpdate = (mediaId, commentId, update) => {};
+export const findCommentByIdAndUpdate = async (mediaId, commentId, update) => {
+  const medias = await getMedia();
+  const index = medias.findIndex((media) => media.id === mediaId);
+  if (index !== -1) {
+    const commentsArray = findComments(mediaId);
+    const i = commentsArray.findIndex((comment) => comment.id === commentId);
+    commentsArray[i].comments = singleComment;
+    const commentUpdate = {
+      ...singleComment,
+      update,
+      updatedAt: new Date(),
+    };
+    commentsArray[i].comments = commentUpdate;
+    await writeMedia(medias);
+
+    return commentUpdate;
+  } else {
+    return null;
+  }
+};
 
 export const findCommentByIdAndDelete = async (mediaId, commentId) => {
   const medias = await getMedia();

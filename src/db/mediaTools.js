@@ -1,6 +1,5 @@
-import { getMedia, writeMedia } from "../fs-tools.js/fs-tools.js";
+import { getMedia, writeMedia } from "../lib/fs-tools.js";
 import uniqid from "uniqid";
-import { write } from "fs-extra";
 
 // /medias
 // POST Media

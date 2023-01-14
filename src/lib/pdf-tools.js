@@ -11,7 +11,7 @@ export const getPDFReadableStream = (media) => {
   };
 
   const printer = new PdfPrinter(fonts);
-  const postUrl = join("./public/img/medias/", `${media.poster}.jpg`);
+  // const postUrl = join("./public/img/medias/", `${media.poster}.jpg`);
 
   const docDefinition = {
     content: [
@@ -19,19 +19,11 @@ export const getPDFReadableStream = (media) => {
         text: `${media.title} \n\n`,
         style: "header",
       },
-      {
-        image: postUrl,
-        fit: [250, 200],
-        alignment: "center",
-      },
-      {
-        normalText: `\n\n${media.year} `,
-        style: "normalText",
-      },
-      {
-        normalText: `\n\n${media.comments} `,
-        style: "normalText",
-      },
+      // {
+      //   image: postUrl,
+      //   fit: [250, 200],
+      //   alignment: "center",
+      // },
     ],
     styles: {
       header: {
